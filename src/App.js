@@ -1,4 +1,6 @@
+import React from "react";
 import { Link } from "react-router-dom";
+import data from "./data";
 
 function App() {
   return (
@@ -17,204 +19,81 @@ function App() {
       <main>
         <div>
           <div className="row center">
-            <div className="card">
-              <Link to="product">
-                <img className="medium" src="./images/p1.jpg" alt="product" />
-              </Link>
-              <div className="card-body">
-                <Link to="product">
-                  <h2>Nike Slim Shirts</h2>
+            {data.products.map((product, idx) => (
+              <div key={idx} className="card">
+                <Link to={`/product/${product._id}`}>
+                  <img
+                    className="medium"
+                    src={product.image}
+                    alt={product.name}
+                  />
                 </Link>
-                <div className="rating">
-                  <span>
-                    {" "}
-                    <i className="fa fa-star"></i>{" "}
-                  </span>
-                  <span>
-                    {" "}
-                    <i className="fa fa-star"></i>{" "}
-                  </span>
-                  <span>
-                    {" "}
-                    <i className="fa fa-star"></i>{" "}
-                  </span>
-                  <span>
-                    {" "}
-                    <i className="fa fa-star"></i>{" "}
-                  </span>
-                  <span>
-                    {" "}
-                    <i className="fa fa-star"></i>{" "}
-                  </span>
+                <div className="card-body">
+                  <Link to={`/product/${product._id}`}>
+                    <h2>{product.name}</h2>
+                  </Link>
+                  <div className="rating">
+                    <span>
+                      <i
+                        className={
+                          product.rating >= 1
+                            ? "fa fa-star"
+                            : product.rating >= 0.5
+                            ? "fa fa-star-half-o"
+                            : "fa fa-star-o"
+                        }
+                      ></i>
+                    </span>
+                    <span>
+                      <i
+                        className={
+                          product.rating >= 2
+                            ? "fa fa-star"
+                            : product.rating >= 1.5
+                            ? "fa fa-star-half-o"
+                            : "fa fa-star-o"
+                        }
+                      ></i>
+                    </span>
+                    <span>
+                      <i
+                        className={
+                          product.rating >= 3
+                            ? "fa fa-star"
+                            : product.rating >= 2.5
+                            ? "fa fa-star-half-o"
+                            : "fa fa-star-o"
+                        }
+                      ></i>
+                    </span>
+                    <span>
+                      <i
+                        className={
+                          product.rating >= 4
+                            ? "fa fa-star"
+                            : product.rating >= 3.5
+                            ? "fa fa-star-half-o"
+                            : "fa fa-star-o"
+                        }
+                      ></i>
+                    </span>
+                    <span>
+                      <i
+                        className={
+                          product.rating >= 5
+                            ? "fa fa-star"
+                            : product.rating >= 4.5
+                            ? "fa fa-star-half-o"
+                            : "fa fa-star-o"
+                        }
+                      ></i>
+                    </span>
+                    {<span>{product.numReviews + " reviews"}</span>}
+                  </div>
+                  <div className="price">R{product.price}</div>
                 </div>
-                <div className="price">$120</div>
               </div>
-            </div>
-            <div className="card">
-              <Link to="product">
-                <img className="medium" src="./images/p1.jpg" alt="product" />
-              </Link>
-              <div className="card-body">
-                <Link to="product">
-                  <h2>Nike Slim Shirts</h2>
-                </Link>
-                <div className="rating">
-                  <span>
-                    {" "}
-                    <i className="fa fa-star"></i>{" "}
-                  </span>
-                  <span>
-                    {" "}
-                    <i className="fa fa-star"></i>{" "}
-                  </span>
-                  <span>
-                    {" "}
-                    <i className="fa fa-star"></i>{" "}
-                  </span>
-                  <span>
-                    {" "}
-                    <i className="fa fa-star"></i>{" "}
-                  </span>
-                  <span>
-                    {" "}
-                    <i className="fa fa-star"></i>{" "}
-                  </span>
-                </div>
-                <div className="price">$120</div>
-              </div>
-            </div>
-            <div className="card">
-              <Link to="product">
-                <img className="medium" src="./images/p1.jpg" alt="product" />
-              </Link>
-              <div className="card-body">
-                <Link to="product">
-                  <h2>Nike Slim Shirts</h2>
-                </Link>
-                <div className="rating">
-                  <span>
-                    {" "}
-                    <i className="fa fa-star"></i>{" "}
-                  </span>
-                  <span>
-                    {" "}
-                    <i className="fa fa-star"></i>{" "}
-                  </span>
-                  <span>
-                    {" "}
-                    <i className="fa fa-star"></i>{" "}
-                  </span>
-                  <span>
-                    {" "}
-                    <i className="fa fa-star"></i>{" "}
-                  </span>
-                  <span>
-                    {" "}
-                    <i className="fa fa-star"></i>{" "}
-                  </span>
-                </div>
-                <div className="price">$120</div>
-              </div>
-            </div>
-            <div className="card">
-              <Link to="product">
-                <img className="medium" src="./images/p1.jpg" alt="product" />
-              </Link>
-              <div className="card-body">
-                <Link to="product">
-                  <h2>Nike Slim Shirts</h2>
-                </Link>
-                <div className="rating">
-                  <span>
-                    {" "}
-                    <i className="fa fa-star"></i>{" "}
-                  </span>
-                  <span>
-                    {" "}
-                    <i className="fa fa-star"></i>{" "}
-                  </span>
-                  <span>
-                    {" "}
-                    <i className="fa fa-star"></i>{" "}
-                  </span>
-                  <span>
-                    {" "}
-                    <i className="fa fa-star"></i>{" "}
-                  </span>
-                  <span>
-                    {" "}
-                    <i className="fa fa-star"></i>{" "}
-                  </span>
-                </div>
-                <div className="price">$120</div>
-              </div>
-            </div>
-            <div className="card">
-              <Link to="product">
-                <img className="medium" src="./images/p1.jpg" alt="product" />
-              </Link>
-              <div className="card-body">
-                <Link to="product">
-                  <h2>Nike Slim Shirts</h2>
-                </Link>
-                <div className="rating">
-                  <span>
-                    {" "}
-                    <i className="fa fa-star"></i>{" "}
-                  </span>
-                  <span>
-                    {" "}
-                    <i className="fa fa-star"></i>{" "}
-                  </span>
-                  <span>
-                    {" "}
-                    <i className="fa fa-star"></i>{" "}
-                  </span>
-                  <span>
-                    {" "}
-                    <i className="fa fa-star"></i>{" "}
-                  </span>
-                  <span>
-                    {" "}
-                    <i className="fa fa-star"></i>{" "}
-                  </span>
-                </div>
-                <div className="price">$120</div>
-              </div>
-            </div>
-            <div className="card">
-              <Link to="product">
-                <img className="medium" src="./images/p1.jpg" alt="product" />
-              </Link>
-              <div className="card-body">
-                <Link to="product">
-                  <h2>Nike Slim Shirts</h2>
-                </Link>
-                <div className="rating">
-                  <span>
-                    {" "}
-                    <i className="fa fa-star"></i>{" "}
-                  </span>
-                  <span>
-                    {" "}
-                    <i className="fa fa-star"></i>{" "}
-                  </span>
-                  <span>
-                    {" "}
-                    <i className="fa fa-star"></i>{" "}
-                  </span>
-                  <span>
-                    {" "}
-                    <i className="fa fa-star"></i>{" "}
-                  </span>
-                  <span>
-                    {" "}
-                    <i className="fa fa-star-half-o"></i>{" "}
-                  </span>
-                </div>
-                <div className="price">$120</div>
-              </div>
-            </div>
+            ))}
           </div>
         </div>
       </main>
