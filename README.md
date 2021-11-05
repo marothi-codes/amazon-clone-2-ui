@@ -17,5 +17,5 @@ The React-Redux user interface for the full-stack version of the Amazon Clone Po
 - React Google Maps API to allow customers to visually input their shipping addresses into the application with minimal typing;
 - Full CRUD operation support to allow merchants to manage their products and inventory conveniently;
 - A full order history to allow users to keep their spending in check;
-- Authentication and Authorisatin for fine-grained access control for various user-account types i.e: _Merchants/ Vendors, Admins and Customers_.
+- Authentication and Authorisation for fine-grained access control for various user-account types i.e: _Merchants/ Vendors, Admins and Customers_.
 - Profile Management to enable users to manage their account details thus keeping accounts up to date at all times.
