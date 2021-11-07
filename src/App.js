@@ -22,7 +22,9 @@ function App() {
             <Link to="/cart">
               <i className="fa fa-shopping-cart"></i> Cart ({cartItems.length})
             </Link>
-            <Link to="/signin">Sign In</Link>
+            <Link to="/signin">
+              <i className="fa fa-sign-in"></i> Sign In
+            </Link>
           </div>
         </header>
         <main>

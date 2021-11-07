@@ -18,7 +18,6 @@ export default function CartScreen(props) {
   }, [dispatch, productId, qty]);
 
   const handleRemoveFromCart = (productId) => {
-    // TODO: Delete action.
     dispatch(removeFromCart(productId));
   };
 

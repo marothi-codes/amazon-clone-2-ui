@@ -85,23 +85,21 @@ export default function ProductDetailsScreen(props) {
                     <>
                       <li>
                         <div className="row">
-                          <div className="row">
-                            <div>Qty:</div>
-                            <div>
-                              <select
-                                value={qty}
-                                onChange={(e) => setQty(e.target.value)}
-                                style={{ float: "right!important" }}
-                              >
-                                {[...Array(product.countInStock).keys()].map(
-                                  (x) => (
-                                    <option key={x + 1} value={x + 1}>
-                                      {x + 1}
-                                    </option>
-                                  )
-                                )}
-                              </select>
-                            </div>
+                          <div>Qty:</div>
+                          <div>
+                            <select
+                              value={qty}
+                              onChange={(e) => setQty(e.target.value)}
+                              style={{ float: "right!important" }}
+                            >
+                              {[...Array(product.countInStock).keys()].map(
+                                (x) => (
+                                  <option key={x + 1} value={x + 1}>
+                                    {x + 1}
+                                  </option>
+                                )
+                              )}
+                            </select>
                           </div>
                         </div>
                       </li>
