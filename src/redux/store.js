@@ -6,7 +6,7 @@ import {
   productDetailsReducer,
   productListReducer,
 } from "./reducers/productReducers";
-import { userSignInReducer } from "./reducers/userReducers";
+import { userSignInReducer, userSignUpReducer } from "./reducers/userReducers";
 
 const initialState = {
   userSignIn: {
@@ -26,6 +26,7 @@ const reducers = combineReducers({
   productDetails: productDetailsReducer,
   cart: cartReducer,
   userSignIn: userSignInReducer,
+  userSignUp: userSignUpReducer,
 });
 
 const middleware = [thunk];

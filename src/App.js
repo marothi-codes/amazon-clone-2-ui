@@ -7,6 +7,7 @@ import CartScreen from "./screens/CartScreen";
 import HomeScreen from "./screens/HomeScreen";
 import ProductDetailsScreen from "./screens/ProductDetailsScreen";
 import SignInScreen from "./screens/SignInScreen";
+import SignUpScreen from "./screens/SignUpScreen";
 
 function App() {
   const cart = useSelector((state) => state.cart);
@@ -47,7 +48,7 @@ function App() {
                 </ul>
               </div>
             ) : (
-              <Link to="/signin">
+              <Link to="/sign-in">
                 <i className="fa fa-sign-in"></i> Sign In
               </Link>
             )}
@@ -56,7 +57,8 @@ function App() {
         <main>
           <Route path="/cart/:id?" component={CartScreen}></Route>
           <Route path="/product/:id" component={ProductDetailsScreen}></Route>
-          <Route path="/signin" component={SignInScreen}></Route>
+          <Route path="/sign-in" component={SignInScreen}></Route>
+          <Route path="/sign-up" component={SignUpScreen}></Route>
           <Route path="/" component={HomeScreen} exact></Route>
         </main>
         <footer className="row center">
