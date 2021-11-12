@@ -4,7 +4,10 @@ The React-Redux user interface for the full-stack version of the Amazon Clone Po
 
 ## What's the BIG IDEA Marothi?
 
-- A good software/ web developer's philosophy is a "show me don't tell me" approach to flexing one's skills to onlookers.
+- A good software/ web developer's philosophy is the "show them don't tell them approach" to (product execution and delivery) and "don't create high expectations, keep them low and over-deliver with value", creating room for exceeding those (seemingly-low) expections without being unrealistic with one's self while at it.
+
+- This approach (stated above ⬆) is key to cultivating a **savage** reputation and being a benchmark without being a pointlessly cocky braggart with no substance to back up one's claims.
+
 - I have no intentions talking a good game but having nothing to show for it but rather put in work and let the work do the speaking on my behalf.
 
 ## What are the ingrediends that go into this dish?
