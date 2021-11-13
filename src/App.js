@@ -4,6 +4,7 @@ import { BrowserRouter, Link, Route } from "react-router-dom";
 import { signOut } from "./redux/actions/userActions";
 
 import CartScreen from "./screens/CartScreen";
+import CheckoutScreen from "./screens/CheckoutScreen";
 import HomeScreen from "./screens/HomeScreen";
 import ProductDetailsScreen from "./screens/ProductDetailsScreen";
 import SignInScreen from "./screens/SignInScreen";
@@ -32,7 +33,15 @@ function App() {
           </div>
           <div>
             <Link to="/cart">
-              <i className="fa fa-shopping-cart"></i> Cart ({cartItems.length})
+              <i className="fa fa-shopping-cart"></i> Cart{" "}
+              <strong>
+                (
+                {cartItems.reduce(
+                  (accumulator, currentItem) => accumulator + currentItem.qty,
+                  0
+                )}
+                )
+              </strong>
             </Link>
             {userInfo ? (
               <div className="dropdown">
@@ -59,6 +68,7 @@ function App() {
           <Route path="/product/:id" component={ProductDetailsScreen}></Route>
           <Route path="/sign-in" component={SignInScreen}></Route>
           <Route path="/sign-up" component={SignUpScreen}></Route>
+          <Route path="/checkout" component={CheckoutScreen}></Route>
           <Route path="/" component={HomeScreen} exact></Route>
         </main>
         <footer className="row center">
