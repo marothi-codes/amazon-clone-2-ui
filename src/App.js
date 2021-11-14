@@ -6,6 +6,7 @@ import { signOut } from "./redux/actions/userActions";
 import CartScreen from "./screens/CartScreen";
 import CheckoutScreen from "./screens/CheckoutScreen";
 import HomeScreen from "./screens/HomeScreen";
+import OrderScreen from "./screens/OrderScreen";
 import PaymentScreen from "./screens/PaymentScreen";
 import ProductDetailsScreen from "./screens/ProductDetailsScreen";
 import SignInScreen from "./screens/SignInScreen";
@@ -71,6 +72,7 @@ function App() {
           <Route path="/sign-up" component={SignUpScreen}></Route>
           <Route path="/checkout" component={CheckoutScreen}></Route>
           <Route path="/payment" component={PaymentScreen}></Route>
+          <Route path="/order" component={OrderScreen}></Route>
           <Route path="/" component={HomeScreen} exact></Route>
         </main>
         <footer className="row center">

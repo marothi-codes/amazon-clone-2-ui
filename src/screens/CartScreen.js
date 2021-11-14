@@ -1,8 +1,9 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import MessageBox from "../components/MessageBox";
 import { addToCart, removeFromCart } from "../redux/actions/cartActions";
+
+import MessageBox from "../components/MessageBox";
 
 export default function CartScreen(props) {
   const productId = props.match.params.id;
@@ -66,7 +67,7 @@ export default function CartScreen(props) {
                       ))}
                     </select>
                   </div>
-                  <div>R{item.price}</div>
+                  <div>R{item.price.toFixed(2)}</div>
                   <div>
                     <button
                       type="button"
@@ -108,6 +109,13 @@ export default function CartScreen(props) {
               >
                 Proceed to Checkout
               </button>
+            </li>
+            <li>
+              <Link to="/">
+                <button className="block">
+                  <i className="fa fa-back"></i> Keep Shopping
+                </button>
+              </Link>
             </li>
           </ul>
         </div>

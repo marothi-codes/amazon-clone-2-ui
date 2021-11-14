@@ -52,7 +52,7 @@ export default function ProductDetailsScreen(props) {
                   ></Rating>
                 </li>
                 <li>
-                  <strong>Price:</strong> R{product.price}
+                  <strong>Price:</strong> R{product.price.toFixed(2)}
                 </li>
                 <li>
                   <strong>Description:</strong>
@@ -66,7 +66,7 @@ export default function ProductDetailsScreen(props) {
                   <li>
                     <div className="row">
                       <div>Price:</div>
-                      <div className="price">R{product.price}</div>
+                      <div className="price">R{product.price.toFixed(2)}</div>
                     </div>
                   </li>
                   <li>
