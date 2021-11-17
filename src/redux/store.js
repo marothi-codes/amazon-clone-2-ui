@@ -2,7 +2,10 @@ import { applyMiddleware, combineReducers, createStore } from "redux";
 import { composeWithDevTools } from "redux-devtools-extension";
 import thunk from "redux-thunk";
 import { cartReducer } from "./reducers/cartReducers";
-import { orderPlacementReducers } from "./reducers/orderReducers";
+import {
+  orderDetailsReducer,
+  orderPlacementReducer,
+} from "./reducers/orderReducers";
 import {
   productDetailsReducer,
   productListReducer,
@@ -22,7 +25,9 @@ const initialState = {
     shippingAddress: localStorage.getItem("shippingAddress")
       ? JSON.parse(localStorage.getItem("shippingAddress"))
       : {},
-    paymentMethod: "PayPal",
+    paymentMethod: localStorage.getItem("paymentMethod")
+      ? JSON.parse(localStorage.getItem("paymentMethod"))
+      : "PayPal",
   },
 };
 
@@ -32,7 +37,8 @@ const reducers = combineReducers({
   cart: cartReducer,
   userSignIn: userSignInReducer,
   userSignUp: userSignUpReducer,
-  placeOrder: orderPlacementReducers,
+  orderDetails: orderDetailsReducer,
+  orderPlacement: orderPlacementReducer,
 });
 
 const middleware = [thunk];

@@ -25,7 +25,7 @@ export default function CheckoutScreen(props) {
     dispatch(
       saveShippingAddress({ fullName, address, city, postalCode, country })
     );
-    props.history.push("/payment");
+    props.history.push("/payment-method");
   };
 
   return (

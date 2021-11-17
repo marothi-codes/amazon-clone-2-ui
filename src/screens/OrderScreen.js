@@ -1,45 +1,28 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
-import { placeOrder } from "../redux/actions/orderActions";
-import { ORDER_CREATE_RESET } from "../redux/constants/orderConstants";
+import { detailOrder } from "../redux/actions/orderActions";
 
-import Checkout from "../components/Checkout";
 import LoadingBox from "../components/LoadingBox";
 import MessageBox from "../components/MessageBox";
+import { Link } from "react-router-dom";
 
 export default function OrderScreen(props) {
-  const cart = useSelector((state) => state.cart);
-
-  if (!cart.paymentMethod) props.history.push("/payment");
-
-  const orderPlacement = useSelector((state) => state.placeOrder);
-  const { loading, success, error, order } = orderPlacement;
-  const toDecimal = (number) => Number(number.toFixed(2));
-
-  cart.itemsPrice = toDecimal(
-    cart.cartItems.reduce((acc, item) => acc + item.qty * item.price, 0)
-  );
-  cart.shippingPrice = cart.itemsPrice > 100 ? toDecimal(0) : toDecimal(60);
-  cart.taxPrice = toDecimal(0.15 * cart.itemsPrice);
-  cart.total = cart.itemsPrice + cart.shippingPrice + cart.taxPrice;
-
+  const orderId = props.match.params.id;
+  const orderDetails = useSelector((state) => state.orderDetails);
+  const { loading, error, order } = orderDetails;
   const dispatch = useDispatch();
 
-  const handleOrderPlacement = () => {
-    dispatch(placeOrder({ ...cart, orderItems: cart.cartItems }));
-  };
-
   useEffect(() => {
-    if (success) {
-      props.history.push(`/order/${order._id}`);
-      dispatch({ type: ORDER_CREATE_RESET });
-    }
-  }, [dispatch, order, props.history, success]);
+    dispatch(detailOrder(orderId));
+  }, [dispatch, orderId]);
 
-  return (
+  return loading ? (
+    <LoadingBox />
+  ) : error ? (
+    <MessageBox variant="danger">{error}</MessageBox>
+  ) : (
     <div>
-      <Checkout step1 step2 step3 step4 />
+      <h1>Order {order._id}</h1>
       <div className="row top">
         <div className="col-2">
           <ul>
@@ -47,28 +30,41 @@ export default function OrderScreen(props) {
               <div className="card card-body">
                 <h2>Shipping</h2>
                 <p>
-                  <strong>Name:</strong> {cart.shippingAddress.fullName} <br />
-                  <strong>Address: </strong> {cart.shippingAddress.address},
-                  {cart.shippingAddress.city}, {cart.shippingAddress.postalCode}
-                  ,{cart.shippingAddress.country}
+                  <strong>Name:</strong> {order.shippingAddress.fullName} <br />
+                  <strong>Address: </strong> {order.shippingAddress.address},
+                  {order.shippingAddress.city},{" "}
+                  {order.shippingAddress.postalCode},
+                  {order.shippingAddress.country}
                 </p>
+                {order.isDelivered ? (
+                  <MessageBox variant="success">
+                    Delivered at {order.deliveredAt}
+                  </MessageBox>
+                ) : (
+                  <MessageBox variant="danger">Not Delivered</MessageBox>
+                )}
               </div>
             </li>
-
             <li>
               <div className="card card-body">
                 <h2>Payment</h2>
                 <p>
-                  <strong>Method:</strong> {cart.paymentMethod}
+                  <strong>Method:</strong> {order.paymentMethod}
                 </p>
+                {order.isPaid ? (
+                  <MessageBox variant="success">
+                    Paid at {order.paidAt}
+                  </MessageBox>
+                ) : (
+                  <MessageBox variant="danger">Not Paid</MessageBox>
+                )}
               </div>
             </li>
-
             <li>
               <div className="card card-body">
                 <h2>Order Items</h2>
                 <ul>
-                  {cart.cartItems.map((item) => (
+                  {order.orderItems.map((item) => (
                     <li key={item.product}>
                       <div className="row">
                         <div>
@@ -95,7 +91,6 @@ export default function OrderScreen(props) {
             </li>
           </ul>
         </div>
-
         <div className="col-1">
           <div className="card card-body">
             <ul>
@@ -105,19 +100,19 @@ export default function OrderScreen(props) {
               <li>
                 <div className="row">
                   <div>Items</div>
-                  <div>R{cart.itemsPrice.toFixed(2)}</div>
+                  <div>R{order.itemsPrice.toFixed(2)}</div>
                 </div>
               </li>
               <li>
                 <div className="row">
                   <div>Shipping</div>
-                  <div>R{cart.shippingPrice.toFixed(2)}</div>
+                  <div>R{order.shippingPrice.toFixed(2)}</div>
                 </div>
               </li>
               <li>
                 <div className="row">
-                  <div>Tax (15% VAT)</div>
-                  <div>R{cart.taxPrice.toFixed(2)}</div>
+                  <div>Tax</div>
+                  <div>R{order.taxPrice.toFixed(2)}</div>
                 </div>
               </li>
               <li>
@@ -126,22 +121,10 @@ export default function OrderScreen(props) {
                     <strong> Order Total</strong>
                   </div>
                   <div>
-                    <strong>R{cart.total.toFixed(2)}</strong>
+                    <strong>R{order.total.toFixed(2)}</strong>
                   </div>
                 </div>
               </li>
-              <li>
-                <button
-                  type="button"
-                  onClick={() => handleOrderPlacement()}
-                  className="primary block"
-                  disabled={cart.cartItems.length === 0}
-                >
-                  Place Order
-                </button>
-              </li>
-              {loading && <LoadingBox />}
-              {error && <MessageBox variant="danger">{error}</MessageBox>}
             </ul>
           </div>
         </div>
