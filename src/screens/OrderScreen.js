@@ -1,20 +1,44 @@
-import React, { useEffect } from "react";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { detailOrder } from "../redux/actions/orderActions";
 
 import LoadingBox from "../components/LoadingBox";
 import MessageBox from "../components/MessageBox";
-import { Link } from "react-router-dom";
+import { PayPalButton } from "react-paypal-button-v2";
 
 export default function OrderScreen(props) {
   const orderId = props.match.params.id;
+  const [sdkReady, setSdkReady] = useState(false);
   const orderDetails = useSelector((state) => state.orderDetails);
   const { loading, error, order } = orderDetails;
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(detailOrder(orderId));
-  }, [dispatch, orderId]);
+    const addPayPalScript = async () => {
+      const { data } = await axios.get("/api/config/paypal");
+      const script = document.createElement("script");
+      script.type = "text/javascript";
+      script.src = `https://www.paypal.com/sdk/js?client-id=${data}`;
+      script.onload = () => setSdkReady(true);
+
+      document.body.appendChild(script);
+    };
+
+    if (!order) dispatch(detailOrder(orderId));
+    else {
+      if (!order.isPaid) {
+        if (!window.paypal) {
+          addPayPalScript();
+        }
+      } else setSdkReady(true);
+    }
+  }, [dispatch, order, orderId, sdkReady]);
+
+  const handlePaymentSuccess = () => {
+    // Dispatch pay order action.
+  };
 
   return loading ? (
     <LoadingBox />
@@ -125,6 +149,18 @@ export default function OrderScreen(props) {
                   </div>
                 </div>
               </li>
+              {!order.isPaid && (
+                <li>
+                  {!sdkReady ? (
+                    <LoadingBox />
+                  ) : (
+                    <PayPalButton
+                      amount={order.total}
+                      onSuccess={() => handlePaymentSuccess}
+                    />
+                  )}
+                </li>
+              )}
             </ul>
           </div>
         </div>
