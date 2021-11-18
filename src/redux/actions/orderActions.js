@@ -6,6 +6,9 @@ import {
   ORDER_CREATE_REQUEST,
   ORDER_DETAILS_FAILURE,
   ORDER_DETAILS_REQUEST,
+  ORDER_HISTORY_LIST_REQUEST,
+  ORDER_HISTORY_LIST_FAILURE,
+  ORDER_HISTORY_LIST_SUCCESS,
   ORDER_DETAILS_SUCCESS,
   ORDER_PAYMENT_FAILURE,
   ORDER_PAYMENT_REQUEST,
@@ -88,3 +91,26 @@ export const payOrder =
       });
     }
   };
+
+export const listOrderHistory = () => async (dispatch, getState) => {
+  dispatch({ type: ORDER_HISTORY_LIST_REQUEST });
+
+  const {
+    userSignIn: { userInfo },
+  } = getState();
+
+  try {
+    const { data } = await axios.get("/api/orders/history", {
+      headers: { Authorization: `Bearer ${userInfo.token}` },
+    });
+    dispatch({ type: ORDER_HISTORY_LIST_SUCCESS, payload: data });
+  } catch (err) {
+    dispatch({
+      type: ORDER_HISTORY_LIST_FAILURE,
+      payload:
+        err.response && err.response.data.message
+          ? err.response.data.message
+          : err.message,
+    });
+  }
+};

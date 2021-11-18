@@ -6,6 +6,7 @@ import { signOut } from "./redux/actions/userActions";
 import CartScreen from "./screens/CartScreen";
 import CheckoutScreen from "./screens/CheckoutScreen";
 import HomeScreen from "./screens/HomeScreen";
+import OrderHistoryScreen from "./screens/OrderHistoryScreen";
 import OrderScreen from "./screens/OrderScreen";
 import PaymentMethodScreen from "./screens/PaymentMethodScreen";
 import PaymentScreen from "./screens/PaymentScreen";
@@ -53,6 +54,9 @@ function App() {
                 </Link>
                 <ul className="dropdown-content">
                   <li>
+                    <Link to="/order-history">Order History</Link>
+                  </li>
+                  <li>
                     <Link to="#signout" onClick={(e) => handleSignOut(e)}>
                       <i className="fa fa-sign-out"></i> Sign Out
                     </Link>
@@ -73,6 +77,7 @@ function App() {
           <Route path="/sign-in" component={SignInScreen}></Route>
           <Route path="/sign-up" component={SignUpScreen}></Route>
           <Route path="/checkout" component={CheckoutScreen}></Route>
+          <Route path="/order-history" component={OrderHistoryScreen}></Route>
           <Route path="/payment-method" component={PaymentMethodScreen}></Route>
           <Route path="/payment" component={PaymentScreen}></Route>
           <Route path="/" component={HomeScreen} exact></Route>
