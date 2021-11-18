@@ -1,4 +1,5 @@
 import axios from "axios";
+import { CART_EMPTY } from "../constants/cartConstants";
 import {
   USER_SIGN_IN_REQUEST,
   USER_SIGN_IN_SUCCESS,
@@ -33,6 +34,7 @@ export const signOut = () => (dispatch) => {
   localStorage.removeItem("userInfo");
   localStorage.removeItem("cartItems");
   localStorage.removeItem("shippingAddress");
+  dispatch({ type: CART_EMPTY });
   dispatch({ type: USER_SIGN_OUT });
 };
 

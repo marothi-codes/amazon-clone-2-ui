@@ -4,6 +4,7 @@ import thunk from "redux-thunk";
 import { cartReducer } from "./reducers/cartReducers";
 import {
   orderDetailsReducer,
+  orderPaymentReducer,
   orderPlacementReducer,
 } from "./reducers/orderReducers";
 import {
@@ -38,6 +39,7 @@ const reducers = combineReducers({
   userSignIn: userSignInReducer,
   userSignUp: userSignUpReducer,
   orderDetails: orderDetailsReducer,
+  orderPayment: orderPaymentReducer,
   orderPlacement: orderPlacementReducer,
 });
 

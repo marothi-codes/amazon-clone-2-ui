@@ -4,9 +4,12 @@ import {
   ORDER_CREATE_FAILURE,
   ORDER_CREATE_SUCCESS,
   ORDER_CREATE_REQUEST,
-  ORDER_DETAILS_REQUEST,
   ORDER_DETAILS_FAILURE,
+  ORDER_DETAILS_REQUEST,
   ORDER_DETAILS_SUCCESS,
+  ORDER_PAYMENT_FAILURE,
+  ORDER_PAYMENT_REQUEST,
+  ORDER_PAYMENT_SUCCESS,
 } from "../constants/orderConstants";
 
 export const placeOrder = (order) => async (dispatch, getState) => {
@@ -15,6 +18,7 @@ export const placeOrder = (order) => async (dispatch, getState) => {
     const {
       userSignIn: { userInfo },
     } = getState();
+
     const { data } = await axios.post("/api/orders", order, {
       headers: { Authorization: `Bearer ${userInfo.token}` },
     });
@@ -37,6 +41,7 @@ export const detailOrder = (id) => async (dispatch, getState) => {
   const {
     userSignIn: { userInfo },
   } = getState();
+
   try {
     const { data } = await axios.get(`/api/orders/${id}`, {
       headers: { Authorization: `Bearer ${userInfo.token}` },
@@ -52,3 +57,34 @@ export const detailOrder = (id) => async (dispatch, getState) => {
     });
   }
 };
+
+export const payOrder =
+  (order, paymentResult) => async (dispatch, getState) => {
+    dispatch({
+      type: ORDER_PAYMENT_REQUEST,
+      payload: { order, paymentResult },
+    });
+
+    const {
+      userSignIn: { userInfo },
+    } = getState();
+
+    try {
+      const { data } = axios.put(
+        `/api/orders/${order._id}/pay`,
+        paymentResult,
+        {
+          headers: { Authorization: `Bearer ${userInfo.token}` },
+        }
+      );
+      dispatch({ type: ORDER_PAYMENT_SUCCESS, payload: data });
+    } catch (err) {
+      dispatch({
+        type: ORDER_PAYMENT_FAILURE,
+        payload:
+          err.response && err.response.data.message
+            ? err.response.data.message
+            : err.message,
+      });
+    }
+  };
