@@ -12,7 +12,11 @@ import {
   productDetailsReducer,
   productListReducer,
 } from "./reducers/productReducers";
-import { userSignInReducer, userSignUpReducer } from "./reducers/userReducers";
+import {
+  userDetailsReducer,
+  userSignInReducer,
+  userSignUpReducer,
+} from "./reducers/userReducers";
 
 const initialState = {
   userSignIn: {
@@ -34,15 +38,16 @@ const initialState = {
 };
 
 const reducers = combineReducers({
-  productList: productListReducer,
-  productDetails: productDetailsReducer,
   cart: cartReducer,
-  userSignIn: userSignInReducer,
-  userSignUp: userSignUpReducer,
   orderDetails: orderDetailsReducer,
   orderHistoryList: orderHistoryListReducer,
   orderPayment: orderPaymentReducer,
   orderPlacement: orderPlacementReducer,
+  productList: productListReducer,
+  productDetails: productDetailsReducer,
+  userDetails: userDetailsReducer,
+  userSignIn: userSignInReducer,
+  userSignUp: userSignUpReducer,
 });
 
 const middleware = [thunk];
