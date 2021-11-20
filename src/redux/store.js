@@ -14,6 +14,7 @@ import {
 } from "./reducers/productReducers";
 import {
   userDetailsReducer,
+  userDetailsUpdateReducer,
   userSignInReducer,
   userSignUpReducer,
 } from "./reducers/userReducers";
@@ -46,6 +47,7 @@ const reducers = combineReducers({
   productList: productListReducer,
   productDetails: productDetailsReducer,
   userDetails: userDetailsReducer,
+  userDetailsUpdate: userDetailsUpdateReducer,
   userSignIn: userSignInReducer,
   userSignUp: userSignUpReducer,
 });
