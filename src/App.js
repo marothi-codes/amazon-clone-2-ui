@@ -74,6 +74,27 @@ function App() {
                 <i className="fa fa-sign-in"></i> Sign In
               </Link>
             )}
+            {userInfo && userInfo.isAdmin && (
+              <div className="dropdown">
+                <Link to="#admin">
+                  Admin <i className="fa fa-caret-down"></i>
+                </Link>
+                <ul className="dropdown-content">
+                  <li>
+                    <Link to="/dashboard">Dashboard</Link>
+                  </li>
+                  <li>
+                    <Link to="/products">Products</Link>
+                  </li>
+                  <li>
+                    <Link to="/orders">Orders</Link>
+                  </li>
+                  <li>
+                    <Link to="/users">Users</Link>
+                  </li>
+                </ul>
+              </div>
+            )}
           </div>
         </header>
         <main>
