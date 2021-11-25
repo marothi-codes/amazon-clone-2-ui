@@ -43,7 +43,7 @@ export default function CartScreen(props) {
         ) : (
           <ul>
             {cartItems.map((item) => (
-              <li key={item.product}>
+              <li key={item}>
                 <div className="row">
                   <div>
                     <img src={item.image} alt={item.name} className="small" />

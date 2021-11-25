@@ -1,23 +1,38 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { listOrderHistory } from "../redux/actions/orderActions";
+import { deleteOrder, listOrders } from "../redux/actions/orderActions";
+import { ORDER_DELETE_RESET } from "../redux/constants/orderConstants";
 
 import LoadingBox from "../components/LoadingBox";
 import MessageBox from "../components/MessageBox";
 
-export default function OrderHistoryScreen(props) {
-  const orderHistoryList = useSelector((state) => state.orderHistoryList);
-  const { error, loading, orders } = orderHistoryList;
+export default function OrderListScreen(props) {
+  const orderList = useSelector((state) => state.orderList);
+  const { error, loading, orders } = orderList;
+  const orderDelete = useSelector((state) => state.orderDelete);
+  const {
+    error: deleteError,
+    loading: deletingOrder,
+    success: orderDeleted,
+  } = orderDelete;
 
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(listOrderHistory());
-  }, [dispatch]);
+    dispatch({ type: ORDER_DELETE_RESET });
+    dispatch(listOrders());
+  }, [dispatch, orderDeleted]);
+
+  const handleOrderDelete = (order) => {
+    if (window.confirm("Are you sure that you want to delete this order?"))
+      dispatch(deleteOrder(order._id));
+  };
 
   return (
     <div>
-      <h1>Order History</h1>
+      <h1>Orders</h1>
+      {deletingOrder && <LoadingBox />}
+      {deleteError && <MessageBox variant="danger">{deleteError}</MessageBox>}
       {loading ? (
         <LoadingBox />
       ) : error ? (
@@ -27,6 +42,7 @@ export default function OrderHistoryScreen(props) {
           <thead>
             <tr>
               <th>ID</th>
+              <th>USER</th>
               <th>DATE</th>
               <th>TOTAL</th>
               <th>PAID</th>
@@ -38,6 +54,7 @@ export default function OrderHistoryScreen(props) {
             {orders.map((order) => (
               <tr key={order}>
                 <td>{order._id}</td>
+                <td>{order.user.name}</td>
                 <td>{order.createdAt.substring(0, 10)}</td>
                 <td>R{order.total.toFixed(2)}</td>
                 <td>{order.isPaid ? order.paidAt.substring(0, 10) : "No"}</td>
@@ -50,11 +67,16 @@ export default function OrderHistoryScreen(props) {
                   <button
                     type="button"
                     className="small"
-                    onClick={() => {
-                      props.history.push(`/order/${order._id}`);
-                    }}
+                    onClick={() => props.history.push(`/order/${order._id}`)}
                   >
                     Details
+                  </button>
+                  <button
+                    type="button"
+                    className="small"
+                    onClick={() => handleOrderDelete(order)}
+                  >
+                    <i className="fa fa-trash"></i> Delete
                   </button>
                 </td>
               </tr>

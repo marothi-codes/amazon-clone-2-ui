@@ -60,6 +60,7 @@ export default function ProductEditScreen(props) {
         description,
       })
     );
+    dispatch({ type: PRODUCT_UPDATE_RESET });
   };
 
   // Handle image uploads.

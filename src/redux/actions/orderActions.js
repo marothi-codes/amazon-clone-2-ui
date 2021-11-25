@@ -4,6 +4,12 @@ import {
   ORDER_CREATE_FAILURE,
   ORDER_CREATE_SUCCESS,
   ORDER_CREATE_REQUEST,
+  ORDER_DELETE_FAILURE,
+  ORDER_DELETE_REQUEST,
+  ORDER_DELETE_SUCCESS,
+  ORDER_DELIVER_FAILURE,
+  ORDER_DELIVER_REQUEST,
+  ORDER_DELIVER_SUCCESS,
   ORDER_DETAILS_FAILURE,
   ORDER_DETAILS_REQUEST,
   ORDER_HISTORY_LIST_REQUEST,
@@ -13,6 +19,9 @@ import {
   ORDER_PAYMENT_FAILURE,
   ORDER_PAYMENT_REQUEST,
   ORDER_PAYMENT_SUCCESS,
+  ORDER_LIST_REQUEST,
+  ORDER_LIST_SUCCESS,
+  ORDER_LIST_FAILURE,
 } from "../constants/orderConstants";
 
 export const placeOrder = (order) => async (dispatch, getState) => {
@@ -35,6 +44,28 @@ export const placeOrder = (order) => async (dispatch, getState) => {
         error.response && error.response.data.message
           ? error.response.data.message
           : error.message,
+    });
+  }
+};
+
+export const listOrders = () => async (dispatch, getState) => {
+  dispatch({ type: ORDER_LIST_REQUEST });
+  const {
+    userSignIn: { userInfo },
+  } = getState();
+
+  try {
+    const { data } = await axios.get("/api/orders", {
+      headers: { Authorization: `Bearer ${userInfo.token}` },
+    });
+    dispatch({ type: ORDER_LIST_SUCCESS, payload: data });
+  } catch (err) {
+    dispatch({
+      type: ORDER_LIST_FAILURE,
+      payload:
+        err.response && err.response.data.message
+          ? err.response.data.message
+          : err.message,
     });
   }
 };
@@ -107,6 +138,53 @@ export const listOrderHistory = () => async (dispatch, getState) => {
   } catch (err) {
     dispatch({
       type: ORDER_HISTORY_LIST_FAILURE,
+      payload:
+        err.response && err.response.data.message
+          ? err.response.data.message
+          : err.message,
+    });
+  }
+};
+
+export const deliverOrder = (id) => async (dispatch, getState) => {
+  dispatch({ type: ORDER_DELIVER_REQUEST, payload: id });
+  const {
+    userSignIn: { userInfo },
+  } = getState();
+
+  try {
+    const { data } = await axios.put(
+      `/api/orders/${id}/deliver`,
+      {},
+      {
+        headers: { Authorization: `Bearer ${userInfo.token}` },
+      }
+    );
+    dispatch({ type: ORDER_DELIVER_SUCCESS, payload: data });
+  } catch (err) {
+    dispatch({
+      type: ORDER_DELIVER_FAILURE,
+      payload:
+        err.response && err.response.data.message
+          ? err.response.data.message
+          : err.message,
+    });
+  }
+};
+
+export const deleteOrder = (id) => async (dispatch, getState) => {
+  dispatch({ type: ORDER_DELETE_REQUEST, payload: id });
+  const {
+    userSignIn: { userInfo },
+  } = getState();
+  try {
+    const { data } = await axios.delete(`/api/orders/${id}`, {
+      headers: { Authorization: `Bearer ${userInfo.token}` },
+    });
+    dispatch({ type: ORDER_DELETE_SUCCESS, payload: data });
+  } catch (err) {
+    dispatch({
+      type: ORDER_DELETE_FAILURE,
       payload:
         err.response && err.response.data.message
           ? err.response.data.message

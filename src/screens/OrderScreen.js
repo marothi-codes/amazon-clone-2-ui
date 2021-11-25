@@ -2,8 +2,15 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { detailOrder, payOrder } from "../redux/actions/orderActions";
-import { ORDER_PAYMENT_RESET } from "../redux/constants/orderConstants";
+import {
+  deliverOrder,
+  detailOrder,
+  payOrder,
+} from "../redux/actions/orderActions";
+import {
+  ORDER_DELIVER_RESET,
+  ORDER_PAYMENT_RESET,
+} from "../redux/constants/orderConstants";
 
 import LoadingBox from "../components/LoadingBox";
 import MessageBox from "../components/MessageBox";
@@ -16,12 +23,22 @@ export default function OrderScreen(props) {
   const orderDetails = useSelector((state) => state.orderDetails);
   const { loading, error, order } = orderDetails;
 
+  const userSignIn = useSelector((state) => state.userSignIn);
+  const { userInfo } = userSignIn;
+
   const orderPayment = useSelector((state) => state.orderPayment);
   const {
     loading: loadingPayment,
     error: paymentError,
     success: paymentSuccess,
   } = orderPayment;
+
+  const orderDeliver = useSelector((state) => state.orderDeliver);
+  const {
+    error: deliveryError,
+    loading: deliveringOrder,
+    success: orderDelivered,
+  } = orderDeliver;
 
   const dispatch = useDispatch();
 
@@ -37,8 +54,14 @@ export default function OrderScreen(props) {
       document.body.appendChild(script);
     };
 
-    if (!order || paymentSuccess || (order && order._id !== orderId)) {
+    if (
+      !order ||
+      paymentSuccess ||
+      orderDelivered ||
+      (order && order._id !== orderId)
+    ) {
       dispatch({ type: ORDER_PAYMENT_RESET });
+      dispatch({ type: ORDER_DELIVER_RESET });
       dispatch(detailOrder(orderId));
     } else {
       if (!order.isPaid) {
@@ -49,10 +72,14 @@ export default function OrderScreen(props) {
         }
       }
     }
-  }, [dispatch, order, orderId, paymentSuccess, sdkReady]);
+  }, [dispatch, order, orderDelivered, orderId, paymentSuccess, sdkReady]);
 
   const handlePaymentSuccess = (paymentResult) => {
     dispatch(payOrder(order, paymentResult));
+  };
+
+  const handleDelivery = () => {
+    dispatch(deliverOrder(order._id));
   };
 
   return loading ? (
@@ -104,7 +131,7 @@ export default function OrderScreen(props) {
                 <h2>Order Items</h2>
                 <ul>
                   {order.orderItems.map((item) => (
-                    <li key={item.product}>
+                    <li key={item}>
                       <div className="row">
                         <div>
                           <img
@@ -180,6 +207,21 @@ export default function OrderScreen(props) {
                       />
                     </>
                   )}
+                </li>
+              )}
+              {userInfo.isAdmin && order.isPaid && !order.IsDelivered && (
+                <li>
+                  {deliveringOrder && <LoadingBox />}
+                  {deliveryError && (
+                    <MessageBox variant="danger">{deliveryError}</MessageBox>
+                  )}
+                  <button
+                    type="button"
+                    className="primary block"
+                    onClick={() => handleDelivery()}
+                  >
+                    Deliver Order
+                  </button>
                 </li>
               )}
             </ul>

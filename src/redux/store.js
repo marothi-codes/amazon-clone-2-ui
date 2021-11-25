@@ -3,8 +3,11 @@ import { composeWithDevTools } from "redux-devtools-extension";
 import thunk from "redux-thunk";
 import { cartReducer } from "./reducers/cartReducers";
 import {
+  orderDeleteReducer,
+  orderDeliverReducer,
   orderDetailsReducer,
   orderHistoryListReducer,
+  orderListReducer,
   orderPaymentReducer,
   orderPlacementReducer,
 } from "./reducers/orderReducers";
@@ -43,8 +46,11 @@ const initialState = {
 
 const reducers = combineReducers({
   cart: cartReducer,
+  orderDelete: orderDeleteReducer,
+  orderDeliver: orderDeliverReducer,
   orderDetails: orderDetailsReducer,
   orderHistoryList: orderHistoryListReducer,
+  orderList: orderListReducer,
   orderPayment: orderPaymentReducer,
   orderPlacement: orderPlacementReducer,
   productCreate: productCreateReducer,

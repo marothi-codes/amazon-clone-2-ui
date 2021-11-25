@@ -9,6 +9,7 @@ import CartScreen from "./screens/CartScreen";
 import CheckoutScreen from "./screens/CheckoutScreen";
 import HomeScreen from "./screens/HomeScreen";
 import OrderHistoryScreen from "./screens/OrderHistoryScreen";
+import OrderListScreen from "./screens/OrderListScreen";
 import OrderScreen from "./screens/OrderScreen";
 import PaymentMethodScreen from "./screens/PaymentMethodScreen";
 import PaymentScreen from "./screens/PaymentScreen";
@@ -117,6 +118,7 @@ function App() {
           <Route path="/sign-up" component={SignUpScreen}></Route>
           <Route path="/checkout" component={CheckoutScreen}></Route>
           <Route path="/order-history" component={OrderHistoryScreen}></Route>
+          <Route path="/orders" component={OrderListScreen}></Route>
           <Route path="/payment-method" component={PaymentMethodScreen}></Route>
           <Route path="/payment" component={PaymentScreen}></Route>
           <PrivateRoute
