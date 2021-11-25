@@ -2,6 +2,10 @@ import {
   PRODUCT_LIST_FAILURE,
   PRODUCT_LIST_REQUEST,
   PRODUCT_LIST_SUCCESS,
+  PRODUCT_DELETE_FAILURE,
+  PRODUCT_DELETE_REQUEST,
+  PRODUCT_DELETE_RESET,
+  PRODUCT_DELETE_SUCCESS,
   PRODUCT_DETAILS_REQUEST,
   PRODUCT_DETAILS_SUCCESS,
   PRODUCT_DETAILS_FAILURE,
@@ -68,6 +72,21 @@ export const productUpdateReducer = (state = {}, action) => {
     case PRODUCT_UPDATE_FAILURE:
       return { loading: false, error: action.payload };
     case PRODUCT_UPDATE_RESET:
+      return {};
+    default:
+      return state;
+  }
+};
+
+export const productDeleteReducer = (state = {}, action) => {
+  switch (action.type) {
+    case PRODUCT_DELETE_REQUEST:
+      return { loading: true };
+    case PRODUCT_DELETE_SUCCESS:
+      return { loading: false, success: true };
+    case PRODUCT_DELETE_FAILURE:
+      return { loading: true, error: action.payload };
+    case PRODUCT_DELETE_RESET:
       return {};
     default:
       return state;

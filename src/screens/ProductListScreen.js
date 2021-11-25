@@ -1,10 +1,17 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { createProduct, listProducts } from "../redux/actions/productActions";
+import {
+  createProduct,
+  deleteProduct,
+  listProducts,
+} from "../redux/actions/productActions";
+import {
+  PRODUCT_CREATE_RESET,
+  PRODUCT_DELETE_RESET,
+} from "../redux/constants/productConstants";
 
 import LoadingBox from "../components/LoadingBox";
 import MessageBox from "../components/MessageBox";
-import { PRODUCT_CREATE_RESET } from "../redux/constants/productConstants";
 
 export default function ProductListScreen(props) {
   const productList = useSelector((state) => state.productList);
@@ -18,6 +25,13 @@ export default function ProductListScreen(props) {
     success: productCreationSuccess,
   } = productCreate;
 
+  const productDelete = useSelector((state) => state.productDelete);
+  const {
+    loading: deletingProduct,
+    error: deleteError,
+    success: productDeleted,
+  } = productDelete;
+
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -25,15 +39,26 @@ export default function ProductListScreen(props) {
       dispatch({ type: PRODUCT_CREATE_RESET });
       props.history.push(`/products/${createdProduct._id}/edit`);
     }
+    if (productDeleted) {
+      dispatch({ type: PRODUCT_DELETE_RESET });
+    }
     dispatch(listProducts());
-  }, [createdProduct, dispatch, productCreationSuccess, props.history]);
+  }, [
+    createdProduct,
+    dispatch,
+    productCreationSuccess,
+    productDeleted,
+    props.history,
+  ]);
 
   const handleCreate = () => {
     dispatch(createProduct());
   };
 
-  const handleDelete = () => {
-    // TODO: Dispatch product delete func.
+  const handleDelete = (product) => {
+    if (window.confirm("Are you sure you want to delete this product?")) {
+      dispatch(deleteProduct(product._id));
+    }
   };
 
   return (
@@ -44,6 +69,10 @@ export default function ProductListScreen(props) {
           Create Product
         </button>
       </div>
+
+      {deletingProduct && <LoadingBox />}
+      {deleteError && <MessageBox variant="danger">{deleteError}</MessageBox>}
+
       {creatingProduct && <LoadingBox />}
       {productCreationError && (
         <MessageBox variant="danger">{productCreationError}</MessageBox>
@@ -65,8 +94,8 @@ export default function ProductListScreen(props) {
             </tr>
           </thead>
           <tbody>
-            {products.map((product, idx) => (
-              <tr key={idx}>
+            {products.map((product) => (
+              <tr key={product}>
                 <td>{product._id}</td>
                 <td>{product.name}</td>
                 <td>R{product.price.toFixed(2)}</td>
