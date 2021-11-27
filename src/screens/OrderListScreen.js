@@ -1,7 +1,10 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { deleteOrder, listOrders } from "../redux/actions/orderActions";
-import { ORDER_DELETE_RESET } from "../redux/constants/orderConstants";
+import {
+  ORDER_DELETE_RESET,
+  ORDER_LIST_RESET,
+} from "../redux/constants/orderConstants";
 
 import LoadingBox from "../components/LoadingBox";
 import MessageBox from "../components/MessageBox";
@@ -19,13 +22,15 @@ export default function OrderListScreen(props) {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch({ type: ORDER_DELETE_RESET });
+    dispatch({ type: ORDER_LIST_RESET });
     dispatch(listOrders());
   }, [dispatch, orderDeleted]);
 
   const handleOrderDelete = (order) => {
-    if (window.confirm("Are you sure that you want to delete this order?"))
+    if (window.confirm("Are you sure that you want to delete this order?")) {
       dispatch(deleteOrder(order._id));
+      dispatch({ type: ORDER_DELETE_RESET });
+    }
   };
 
   return (
@@ -41,7 +46,6 @@ export default function OrderListScreen(props) {
         <table className="table">
           <thead>
             <tr>
-              <th>ID</th>
               <th>USER</th>
               <th>DATE</th>
               <th>TOTAL</th>
@@ -53,7 +57,6 @@ export default function OrderListScreen(props) {
           <tbody>
             {orders.map((order) => (
               <tr key={order}>
-                <td>{order._id}</td>
                 <td>{order.user.name}</td>
                 <td>{order.createdAt.substring(0, 10)}</td>
                 <td>R{order.total.toFixed(2)}</td>

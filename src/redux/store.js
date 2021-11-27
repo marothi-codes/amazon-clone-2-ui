@@ -19,10 +19,13 @@ import {
   productUpdateReducer,
 } from "./reducers/productReducers";
 import {
+  userDeleteReducer,
   userDetailsReducer,
   userDetailsUpdateReducer,
+  userListReducer,
   userSignInReducer,
   userSignUpReducer,
+  userUpdateReducer,
 } from "./reducers/userReducers";
 
 const initialState = {
@@ -58,8 +61,11 @@ const reducers = combineReducers({
   productDelete: productDeleteReducer,
   productDetails: productDetailsReducer,
   productUpdate: productUpdateReducer,
+  userDelete: userDeleteReducer,
   userDetails: userDetailsReducer,
   userDetailsUpdate: userDetailsUpdateReducer,
+  userList: userListReducer,
+  userUpdate: userUpdateReducer,
   userSignIn: userSignInReducer,
   userSignUp: userSignUpReducer,
 });

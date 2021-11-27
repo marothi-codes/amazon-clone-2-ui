@@ -72,7 +72,7 @@ export default function OrderScreen(props) {
         }
       }
     }
-  }, [dispatch, order, orderDelivered, orderId, paymentSuccess, sdkReady]);
+  }, [dispatch, orderId, sdkReady, paymentSuccess, orderDelivered, order]);
 
   const handlePaymentSuccess = (paymentResult) => {
     dispatch(payOrder(order, paymentResult));

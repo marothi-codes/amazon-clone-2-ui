@@ -15,13 +15,14 @@ export default function ProfileScreen() {
 
   const userSignIn = useSelector((state) => state.userSignIn);
   const { userInfo } = userSignIn;
+
   const userDetails = useSelector((state) => state.userDetails);
   const { error, loading, user } = userDetails;
 
   const userDetailsUpdate = useSelector((state) => state.userDetailsUpdate);
   const {
     error: updateError,
-    loading: loadingUpdate,
+    loading: updatingProfile,
     success: updateSuccess,
   } = userDetailsUpdate;
 
@@ -35,14 +36,14 @@ export default function ProfileScreen() {
       setName(user.name);
       setEmail(user.email);
     }
-  }, [dispatch, user, userInfo._id]);
+  }, [dispatch, userInfo._id, user]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
     if (password !== confirmPassword) {
       alert("Password and Confirm Password fields don't match");
     } else {
-      dispatch(updateUserDetails({ userId: user._id, name, email, password }));
+      dispatch(updateUserDetails({ _id: user._id, name, email, password }));
     }
   };
 
@@ -58,8 +59,10 @@ export default function ProfileScreen() {
           <MessageBox variant="danger">{error}</MessageBox>
         ) : (
           <>
-            {loadingUpdate && <LoadingBox />}
-            {updateError && <MessageBox variant="danger">{error}</MessageBox>}
+            {updatingProfile && <LoadingBox />}
+            {updateError && (
+              <MessageBox variant="danger">{updateError}</MessageBox>
+            )}
             {updateSuccess && (
               <MessageBox variant="success">
                 Profile details updated.

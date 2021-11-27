@@ -8,6 +8,7 @@ import {
 import {
   PRODUCT_CREATE_RESET,
   PRODUCT_DELETE_RESET,
+  PRODUCT_DETAILS_RESET,
 } from "../redux/constants/productConstants";
 
 import LoadingBox from "../components/LoadingBox";
@@ -43,6 +44,7 @@ export default function ProductListScreen(props) {
       dispatch({ type: PRODUCT_DELETE_RESET });
     }
     dispatch(listProducts());
+    dispatch({ type: PRODUCT_DETAILS_RESET });
   }, [
     createdProduct,
     dispatch,
@@ -85,7 +87,6 @@ export default function ProductListScreen(props) {
         <table className="table">
           <thead>
             <tr>
-              <th>ID</th>
               <th>NAME</th>
               <th>PRICE</th>
               <th>CATEGORY</th>
@@ -96,7 +97,6 @@ export default function ProductListScreen(props) {
           <tbody>
             {products.map((product) => (
               <tr key={product}>
-                <td>{product._id}</td>
                 <td>{product.name}</td>
                 <td>R{product.price.toFixed(2)}</td>
                 <td>{product.category}</td>
