@@ -10,6 +10,7 @@ import LoadingBox from "../components/LoadingBox";
 import MessageBox from "../components/MessageBox";
 
 export default function OrderListScreen(props) {
+  const sellerMode = props.match.path.indexOf("/seller") >= 0;
   const orderList = useSelector((state) => state.orderList);
   const { error, loading, orders } = orderList;
   const orderDelete = useSelector((state) => state.orderDelete);
@@ -19,12 +20,15 @@ export default function OrderListScreen(props) {
     success: orderDeleted,
   } = orderDelete;
 
+  const userSignIn = useSelector((state) => state.userSignIn);
+  const { userInfo } = userSignIn;
+
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch({ type: ORDER_LIST_RESET });
-    dispatch(listOrders());
-  }, [dispatch, orderDeleted]);
+    dispatch(listOrders({ seller: sellerMode ? userInfo._id : "" }));
+  }, [dispatch, orderDeleted, sellerMode, userInfo._id]);
 
   const handleOrderDelete = (order) => {
     if (window.confirm("Are you sure that you want to delete this order?")) {

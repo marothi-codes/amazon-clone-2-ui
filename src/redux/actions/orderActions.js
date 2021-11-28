@@ -48,27 +48,29 @@ export const placeOrder = (order) => async (dispatch, getState) => {
   }
 };
 
-export const listOrders = () => async (dispatch, getState) => {
-  dispatch({ type: ORDER_LIST_REQUEST });
-  const {
-    userSignIn: { userInfo },
-  } = getState();
+export const listOrders =
+  ({ seller = "" }) =>
+  async (dispatch, getState) => {
+    dispatch({ type: ORDER_LIST_REQUEST });
+    const {
+      userSignIn: { userInfo },
+    } = getState();
 
-  try {
-    const { data } = await axios.get("/api/orders", {
-      headers: { Authorization: `Bearer ${userInfo.token}` },
-    });
-    dispatch({ type: ORDER_LIST_SUCCESS, payload: data });
-  } catch (err) {
-    dispatch({
-      type: ORDER_LIST_FAILURE,
-      payload:
-        err.response && err.response.data.message
-          ? err.response.data.message
-          : err.message,
-    });
-  }
-};
+    try {
+      const { data } = await axios.get(`/api/orders?seller=${seller}`, {
+        headers: { Authorization: `Bearer ${userInfo.token}` },
+      });
+      dispatch({ type: ORDER_LIST_SUCCESS, payload: data });
+    } catch (err) {
+      dispatch({
+        type: ORDER_LIST_FAILURE,
+        payload:
+          err.response && err.response.data.message
+            ? err.response.data.message
+            : err.message,
+      });
+    }
+  };
 
 export const detailOrder = (id) => async (dispatch, getState) => {
   dispatch({ type: ORDER_DETAILS_REQUEST, playload: id });

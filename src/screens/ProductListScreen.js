@@ -15,6 +15,7 @@ import LoadingBox from "../components/LoadingBox";
 import MessageBox from "../components/MessageBox";
 
 export default function ProductListScreen(props) {
+  const sellerMode = props.match.path.indexOf("/seller") >= 0;
   const productList = useSelector((state) => state.productList);
   const { error, loading, products } = productList;
 
@@ -33,6 +34,9 @@ export default function ProductListScreen(props) {
     success: productDeleted,
   } = productDelete;
 
+  const userSignIn = useSelector((state) => state.userSignIn);
+  const { userInfo } = userSignIn;
+
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -43,7 +47,7 @@ export default function ProductListScreen(props) {
     if (productDeleted) {
       dispatch({ type: PRODUCT_DELETE_RESET });
     }
-    dispatch(listProducts());
+    dispatch(listProducts({ seller: sellerMode ? userInfo._id : "" }));
     dispatch({ type: PRODUCT_DETAILS_RESET });
   }, [
     createdProduct,
@@ -51,6 +55,8 @@ export default function ProductListScreen(props) {
     productCreationSuccess,
     productDeleted,
     props.history,
+    sellerMode,
+    userInfo._id,
   ]);
 
   const handleCreate = () => {

@@ -22,6 +22,7 @@ import ProductListScreen from "./screens/ProductListScreen";
 import ProductEditScreen from "./screens/ProductEditScreen";
 import UserListScreen from "./screens/UserListScreen";
 import UserEditScreen from "./screens/UserEditScreen";
+import SellerRoute from "./components/SellerRoute";
 
 function App() {
   const cart = useSelector((state) => state.cart);
@@ -80,6 +81,21 @@ function App() {
                 <i className="fa fa-sign-in"></i> Sign In
               </Link>
             )}
+            {userInfo && userInfo.isSeller && (
+              <div className="dropdown">
+                <Link to="#admin">
+                  Seller <i className="fa fa-caret-down"></i>
+                </Link>
+                <ul className="dropdown-content">
+                  <li>
+                    <Link to="/products/seller">Products</Link>
+                  </li>
+                  <li>
+                    <Link to="/orders/seller">Orders</Link>
+                  </li>
+                </ul>
+              </div>
+            )}
             {userInfo && userInfo.isAdmin && (
               <div className="dropdown">
                 <Link to="#admin">
@@ -121,7 +137,13 @@ function App() {
           <Route path="/sign-up" component={SignUpScreen}></Route>
           <Route path="/checkout" component={CheckoutScreen}></Route>
           <Route path="/order-history" component={OrderHistoryScreen}></Route>
-          <Route path="/orders" component={OrderListScreen}></Route>
+          <SellerRoute path="/products/seller" component={ProductListScreen} />
+          <SellerRoute path="/orders/seller" component={OrderListScreen} />
+          <AdminRoute
+            path="/orders"
+            exact
+            component={OrderListScreen}
+          ></AdminRoute>
           <AdminRoute path="/users" component={UserListScreen} />
           <Route path="/payment-method" component={PaymentMethodScreen}></Route>
           <Route path="/payment" component={PaymentScreen}></Route>
@@ -131,6 +153,7 @@ function App() {
           ></PrivateRoute>
           <AdminRoute
             path="/products"
+            exact
             component={ProductListScreen}
           ></AdminRoute>
           <Route path="/" component={HomeScreen} exact></Route>
