@@ -21,6 +21,10 @@ import {
   USER_SIGN_UP_FAILURE,
   USER_SIGN_UP_REQUEST,
   USER_SIGN_UP_SUCCESS,
+  USER_TOPSELLERS_LIST_FAILURE,
+  USER_TOPSELLERS_LIST_REQUEST,
+  USER_TOPSELLERS_LIST_RESET,
+  USER_TOPSELLERS_LIST_SUCCESS,
   USER_UPDATE_FAILURE,
   USER_UPDATE_REQUEST,
   USER_UPDATE_RESET,
@@ -122,6 +126,21 @@ export const userDeleteReducer = (state = {}, action) => {
     case USER_DELETE_FAILURE:
       return { loading: false, error: action.payload };
     case USER_DELETE_RESET:
+      return {};
+    default:
+      return state;
+  }
+};
+
+export const userTopSellerListReducer = (state = { loading: true }, action) => {
+  switch (action.type) {
+    case USER_TOPSELLERS_LIST_REQUEST:
+      return { loading: true };
+    case USER_TOPSELLERS_LIST_SUCCESS:
+      return { loading: false, users: action.payload };
+    case USER_TOPSELLERS_LIST_FAILURE:
+      return { loading: false, error: action.payload };
+    case USER_TOPSELLERS_LIST_RESET:
       return {};
     default:
       return state;
