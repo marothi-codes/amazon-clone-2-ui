@@ -207,6 +207,11 @@ function App() {
             component={SearchScreen}
             exact
           />
+          <Route
+            path="/search/category/:category/name/:name/min/:min/max/:max/rating/:rating/order/:order"
+            component={SearchScreen}
+            exact
+          />
           <Route path="/sign-in" component={SignInScreen}></Route>
           <Route path="/sign-up" component={SignUpScreen}></Route>
           <Route path="/checkout" component={CheckoutScreen}></Route>
