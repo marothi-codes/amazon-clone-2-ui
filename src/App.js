@@ -168,12 +168,14 @@ function App() {
               <MessageBox variant="danger">{errorLoadingCategories}</MessageBox>
             ) : (
               categories.map((c) => (
-                <Link
-                  to={`/search/category/${c}`}
-                  onClick={() => setSidebarIsOpen(false)}
-                >
-                  {c}
-                </Link>
+                <li key={c}>
+                  <Link
+                    to={`/search/category/${c}`}
+                    onClick={() => setSidebarIsOpen(false)}
+                  >
+                    {c}
+                  </Link>
+                </li>
               ))
             )}
           </ul>
