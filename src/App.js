@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { BrowserRouter, Link, Route } from "react-router-dom";
 import { signOut } from "./redux/actions/userActions";
+import { listProductCategories } from "./redux/actions/productActions";
 
 // Component and Screen Imports below.
 import PrivateRoute from "./components/PrivateRoute";
@@ -24,13 +25,31 @@ import UserListScreen from "./screens/UserListScreen";
 import UserEditScreen from "./screens/UserEditScreen";
 import SellerRoute from "./components/SellerRoute";
 import SellerScreen from "./screens/SellerScreen";
+import SearchScreen from "./screens/SearchScreen";
+import SearchBox from "./components/SearchBox";
+import LoadingBox from "./components/LoadingBox";
+import MessageBox from "./components/MessageBox";
 
 function App() {
   const cart = useSelector((state) => state.cart);
   const { cartItems } = cart;
   const userSignIn = useSelector((state) => state.userSignIn);
   const { userInfo } = userSignIn;
+
+  const [sideBarIsOpen, setSidebarIsOpen] = useState(false);
+
   const dispatch = useDispatch();
+
+  const productCategoryList = useSelector((state) => state.productCategoryList);
+  const {
+    error: errorLoadingCategories,
+    loading: loadingCategories,
+    categories,
+  } = productCategoryList;
+
+  useEffect(() => {
+    dispatch(listProductCategories());
+  }, [dispatch]);
 
   const handleSignOut = (e) => {
     e.preventDefault();
@@ -42,9 +61,19 @@ function App() {
       <div className="grid-container">
         <header className="row">
           <div>
+            <button
+              type="button"
+              className="open-sidebar"
+              onClick={() => setSidebarIsOpen(true)}
+            >
+              <i className="fa fa-bars"></i>
+            </button>
             <Link className="brand" to="/">
               amazon
             </Link>
+          </div>
+          <div>
+            <Route render={({ history }) => <SearchBox history={history} />} />
           </div>
           <div>
             <Link to="/cart">
@@ -120,6 +149,36 @@ function App() {
             )}
           </div>
         </header>
+
+        <aside className={sideBarIsOpen ? "open" : ""}>
+          <ul className="categories">
+            <li>
+              <strong>Categories</strong>
+              <button
+                type="button"
+                className="close-sidebar"
+                onClick={() => setSidebarIsOpen(false)}
+              >
+                <i className="fa fa-close"></i>
+              </button>
+            </li>
+            {loadingCategories ? (
+              <LoadingBox />
+            ) : errorLoadingCategories ? (
+              <MessageBox variant="danger">{errorLoadingCategories}</MessageBox>
+            ) : (
+              categories.map((c) => (
+                <Link
+                  to={`/search/category/${c}`}
+                  onClick={() => setSidebarIsOpen(false)}
+                >
+                  {c}
+                </Link>
+              ))
+            )}
+          </ul>
+        </aside>
+
         <main>
           <Route path="/seller/:id" component={SellerScreen} />
           <Route path="/cart/:id?" component={CartScreen}></Route>
@@ -135,6 +194,17 @@ function App() {
           ></Route>
           <Route path="/order/:id" component={OrderScreen}></Route>
           <AdminRoute path="/user/:id/edit" component={UserEditScreen} />
+          <Route path="/search/name/:name?" component={SearchScreen} exact />
+          <Route
+            path="/search/category/:category"
+            component={SearchScreen}
+            exact
+          />
+          <Route
+            path="/search/category/:category/name/:name"
+            component={SearchScreen}
+            exact
+          />
           <Route path="/sign-in" component={SignInScreen}></Route>
           <Route path="/sign-up" component={SignUpScreen}></Route>
           <Route path="/checkout" component={CheckoutScreen}></Route>
