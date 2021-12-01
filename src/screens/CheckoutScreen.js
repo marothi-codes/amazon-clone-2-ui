@@ -9,6 +9,10 @@ export default function CheckoutScreen(props) {
   const { userInfo } = userSignIn;
   const cart = useSelector((state) => state.cart);
   const { shippingAddress } = cart;
+  const [lat, setLat] = useState(shippingAddress.lat);
+  const [lng, setLng] = useState(shippingAddress.lng);
+  const userAddressMap = useSelector((state) => state.userAddressMap);
+  const { address: mapAddress } = userAddressMap;
 
   if (!userInfo) props.history.push("/sign-in");
 
@@ -22,10 +26,49 @@ export default function CheckoutScreen(props) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    const newLat = mapAddress ? mapAddress.lat : lat;
+    const newLng = mapAddress ? mapAddress.lng : lng;
+
+    if (mapAddress) {
+      setLat(mapAddress.lat);
+      setLng(mapAddress.lng);
+    }
+
+    let moveOn = true;
+
+    if (!newLat || !newLng)
+      moveOn = window.confirm("You did not set your map location. Continue?");
+
+    if (moveOn) {
+      dispatch(
+        saveShippingAddress({
+          fullName,
+          address,
+          city,
+          postalCode,
+          country,
+          lat: newLat,
+          lng: newLng,
+        })
+      );
+
+      props.history.push("/payment-method");
+    }
+  };
+
+  const chooseOnMap = () => {
     dispatch(
-      saveShippingAddress({ fullName, address, city, postalCode, country })
+      saveShippingAddress({
+        fullName,
+        address,
+        city,
+        postalCode,
+        country,
+        lat,
+        lng,
+      })
     );
-    props.history.push("/payment-method");
+    props.history.push("/map");
   };
 
   return (
@@ -94,6 +137,14 @@ export default function CheckoutScreen(props) {
             onChange={(e) => setCountry(e.target.value)}
             required
           />
+        </div>
+
+        {/* Choose on Map */}
+        <div>
+          <label htmlFor="chooseOnMap">Choose On Map:</label>
+          <button type="button" onClick={() => chooseOnMap()}>
+            Choose On Map
+          </button>
         </div>
 
         {/* Submit */}

@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { listProducts } from "../redux/actions/productActions";
 import { listTopSellers } from "../redux/actions/userActions";
+import { Link } from "react-router-dom";
 
 // Components
 import Product from "../components/Product";
@@ -11,7 +12,6 @@ import { Carousel } from "react-responsive-carousel";
 
 // Stylesheets
 import "react-responsive-carousel/lib/styles/carousel.min.css";
-import { Link } from "react-router-dom";
 
 export default function HomeScreen() {
   const dispatch = useDispatch();

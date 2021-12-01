@@ -1,9 +1,10 @@
 {
   "name": "ui",
   "proxy": "http://127.0.0.1:5000",
-  "version": "0.9.13",
+  "version": "0.9.14",
   "private": true,
   "dependencies": {
+    "@react-google-maps/api": "^2.0.1",
     "@testing-library/jest-dom": "^5.15.0",
     "@testing-library/react": "^11.2.7",
     "@testing-library/user-event": "^12.8.3",
