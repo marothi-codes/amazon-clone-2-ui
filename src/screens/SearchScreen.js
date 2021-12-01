@@ -19,11 +19,12 @@ export default function SearchScreen(props) {
     max = 0,
     rating = 0,
     order = "newset",
+    pageNumber = 1,
   } = useParams();
   const dispatch = useDispatch();
 
   const productList = useSelector((state) => state.productList);
-  const { error, loading, products } = productList;
+  const { error, loading, products, page, pages } = productList;
 
   const productCategoryList = useSelector((state) => state.productCategoryList);
   const {
@@ -35,6 +36,7 @@ export default function SearchScreen(props) {
   useEffect(() => {
     dispatch(
       listProducts({
+        pageNumber,
         name: name !== "all" ? name : "",
         category: category !== "all" ? category : "",
         min,
@@ -43,41 +45,49 @@ export default function SearchScreen(props) {
         order,
       })
     );
-  }, [dispatch, name, category, min, max, rating, order]);
+  }, [dispatch, name, category, min, max, rating, order, pageNumber]);
 
   const getFilterUrl = (filter) => {
+    const pageFilter = filter.page || pageNumber;
     const categoryFilter = filter.category || category;
     const nameFilter = filter.name || name;
     const ratingFilter = filter.rating || rating;
     const sortOrder = filter.order || order;
     const minFilter = filter.min ? filter.min : filter.min === 0 ? 0 : min;
     const maxFilter = filter.max ? filter.max : filter.max === 0 ? 0 : max;
-    return `/search/category/${categoryFilter}/name/${nameFilter}/min/${minFilter}/max/${maxFilter}/rating/${ratingFilter}/order/${sortOrder}`;
+    return `/search/category/${categoryFilter}/name/${nameFilter}/min/${minFilter}/max/${maxFilter}/rating/${ratingFilter}/order/${sortOrder}/pageNumber/${pageFilter}`;
   };
 
   return (
     <div>
-      <div className="row">
+      <div className="row center">
         {loading ? (
           <LoadingBox />
         ) : error ? (
           <MessageBox variant="danger">{error}</MessageBox>
         ) : (
-          <div>{products.length} Results</div>
+          <>
+            <div style={{ marginRight: "0.5rem" }}>
+              <strong>{products.length} Results </strong>
+            </div>
+          </>
         )}
+        <br />
         <div>
-          Sort by{" "}
-          <select
-            value={order}
-            onChange={(e) => {
-              props.history.push(getFilterUrl({ order: e.target.value }));
-            }}
-          >
-            <option value="newest">Newest Arrivals</option>
-            <option value="lowest">Price: Low to High</option>
-            <option value="highest">Price: High to Low</option>
-            <option value="toprated">Avg. Customer Reviews</option>
-          </select>
+          <div>
+            Sort by{" "}
+            <select
+              value={order}
+              onChange={(e) => {
+                props.history.push(getFilterUrl({ order: e.target.value }));
+              }}
+            >
+              <option value="newest">Newest Arrivals</option>
+              <option value="lowest">Price: Low to High</option>
+              <option value="highest">Price: High to Low</option>
+              <option value="toprated">Avg. Customer Reviews</option>
+            </select>
+          </div>
         </div>
       </div>
       <div className="row top">
@@ -155,6 +165,17 @@ export default function SearchScreen(props) {
               <div className="row center">
                 {products.map((product) => (
                   <Product key={product} product={product} />
+                ))}
+              </div>
+              <div className="row center pagination">
+                {[...Array(pages).keys()].map((x) => (
+                  <Link
+                    className={x + 1 === page ? "active" : ""}
+                    key={x + 1}
+                    to={getFilterUrl({ page: x + 1 })}
+                  >
+                    {x + 1}
+                  </Link>
                 ))}
               </div>
             </>

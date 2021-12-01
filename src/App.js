@@ -209,7 +209,7 @@ function App() {
             exact
           />
           <Route
-            path="/search/category/:category/name/:name/min/:min/max/:max/rating/:rating/order/:order"
+            path="/search/category/:category/name/:name/min/:min/max/:max/rating/:rating/order/:order/pageNumber/:pageNumber"
             component={SearchScreen}
             exact
           />
@@ -237,6 +237,16 @@ function App() {
             exact
             component={ProductListScreen}
           ></AdminRoute>
+          <AdminRoute
+            path="/products/pageNumber/:pageNumber"
+            exact
+            component={ProductListScreen}
+          ></AdminRoute>
+          <Route
+            path="/pageNumber/:pageNumber"
+            component={HomeScreen}
+            exact
+          ></Route>
           <Route path="/" component={HomeScreen} exact></Route>
         </main>
         <footer className="row center">
