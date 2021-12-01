@@ -1,6 +1,6 @@
 # Amazon Clone 2 User Interface Project
 
-The React-Redux user interface for the full-stack version of the Amazon Clone Portfolio Project, unlike the first one, I will not be using Firebase for the backend but rather a Node.js Express REST API project to flaunt some all-rounded clout at the corporate skeptics.
+The React-Redux user interface for the full-stack version of the Amazon Clone Portfolio Project, unlike [the first one](https://github.com/marothi-codes/amazon-clone), I will not be using Firebase for the backend but rather a Node.js Express [REST API project](https://github.com/marothi-codes/amazon-clone-api) to flaunt some all-rounded clout at the corporate skeptics.
 
 ## What's the BIG IDEA Marothi?
 
