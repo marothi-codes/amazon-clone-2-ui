@@ -24,6 +24,9 @@ import {
   ORDER_PAYMENT_REQUEST,
   ORDER_PAYMENT_RESET,
   ORDER_PAYMENT_SUCCESS,
+  ORDER_SUMMARY_REQUEST,
+  ORDER_SUMMARY_SUCCESS,
+  ORDER_SUMMARY_FAILURE,
 } from "../constants/orderConstants";
 
 export const orderListReducer = (state = { orders: [] }, action) => {
@@ -120,6 +123,22 @@ export const orderDeleteReducer = (state = {}, action) => {
       return { loading: false, error: action.payload };
     case ORDER_DELETE_RESET:
       return {};
+    default:
+      return state;
+  }
+};
+
+export const orderSummaryReducer = (
+  state = { loading: true, summary: {} },
+  action
+) => {
+  switch (action.type) {
+    case ORDER_SUMMARY_REQUEST:
+      return { loading: true };
+    case ORDER_SUMMARY_SUCCESS:
+      return { loading: false, summary: action.payload };
+    case ORDER_SUMMARY_FAILURE:
+      return { loading: false, error: action.payload };
     default:
       return state;
   }

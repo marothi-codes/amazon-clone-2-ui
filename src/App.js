@@ -30,6 +30,7 @@ import SearchBox from "./components/SearchBox";
 import LoadingBox from "./components/LoadingBox";
 import MessageBox from "./components/MessageBox";
 import MapScreen from "./screens/MapScreen";
+import DashboardScreen from "./screens/DashboardScreen";
 
 function App() {
   const cart = useSelector((state) => state.cart);
@@ -237,6 +238,7 @@ function App() {
             exact
             component={ProductListScreen}
           ></AdminRoute>
+          <AdminRoute path="/dashboard" component={DashboardScreen} />
           <AdminRoute
             path="/products/pageNumber/:pageNumber"
             exact

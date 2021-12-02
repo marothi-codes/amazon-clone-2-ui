@@ -22,6 +22,9 @@ import {
   ORDER_LIST_REQUEST,
   ORDER_LIST_SUCCESS,
   ORDER_LIST_FAILURE,
+  ORDER_SUMMARY_FAILURE,
+  ORDER_SUMMARY_REQUEST,
+  ORDER_SUMMARY_SUCCESS,
 } from "../constants/orderConstants";
 
 export const placeOrder = (order) => async (dispatch, getState) => {
@@ -187,6 +190,27 @@ export const deleteOrder = (id) => async (dispatch, getState) => {
   } catch (err) {
     dispatch({
       type: ORDER_DELETE_FAILURE,
+      payload:
+        err.response && err.response.data.message
+          ? err.response.data.message
+          : err.message,
+    });
+  }
+};
+
+export const summarizeOrders = () => async (dispatch, getState) => {
+  dispatch({ type: ORDER_SUMMARY_REQUEST });
+  const {
+    userSignIn: { userInfo },
+  } = getState();
+  try {
+    const { data } = await axios.get("/api/orders/summary", {
+      headers: { Authorization: `Bearer ${userInfo.token}` },
+    });
+    dispatch({ type: ORDER_SUMMARY_SUCCESS, payload: data });
+  } catch (err) {
+    dispatch({
+      type: ORDER_SUMMARY_FAILURE,
       payload:
         err.response && err.response.data.message
           ? err.response.data.message
