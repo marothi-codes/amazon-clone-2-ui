@@ -31,6 +31,8 @@ import LoadingBox from "./components/LoadingBox";
 import MessageBox from "./components/MessageBox";
 import MapScreen from "./screens/MapScreen";
 import DashboardScreen from "./screens/DashboardScreen";
+import ChatBox from "./components/ChatBox";
+import SupportScreen from "./screens/SupportScreen";
 
 function App() {
   const cart = useSelector((state) => state.cart);
@@ -146,6 +148,9 @@ function App() {
                   <li>
                     <Link to="/users">Users</Link>
                   </li>
+                  <li>
+                    <Link to="/support">Support</Link>
+                  </li>
                 </ul>
               </div>
             )}
@@ -239,6 +244,7 @@ function App() {
             component={ProductListScreen}
           ></AdminRoute>
           <AdminRoute path="/dashboard" component={DashboardScreen} />
+          <AdminRoute path="/support" component={SupportScreen} />
           <AdminRoute
             path="/products/pageNumber/:pageNumber"
             exact
@@ -252,8 +258,11 @@ function App() {
           <Route path="/" component={HomeScreen} exact></Route>
         </main>
         <footer className="row center">
-          Copyright &copy; Marothi Codes Inc. {new Date().getFullYear()} | All
-          Rights Reserved
+          {userInfo && !userInfo.isAdmin && <ChatBox userInfo={userInfo} />}
+          <div>
+            Copyright &copy; Marothi Codes Inc. {new Date().getFullYear()} | All
+            Rights Reserved
+          </div>
         </footer>
       </div>
     </BrowserRouter>
