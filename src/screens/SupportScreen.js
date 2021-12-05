@@ -77,17 +77,7 @@ export default function SupportScreen() {
         setMessages(allMessages);
       });
     }
-  }, [
-    messages,
-    socket,
-    uiMessagesRef,
-    userInfo._id,
-    userInfo._isAdmin,
-    userInfo._name,
-    userInfo.isAdmin,
-    userInfo.name,
-    users,
-  ]);
+  }, [messages, socket, uiMessagesRef, userInfo, users]);
 
   const selectUser = (user) => {
     allSelectedUsers = user;

@@ -1,17 +1,11 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import { Redirect, Route } from "react-router";
+import { Navigate } from "react-router-dom";
 
-export default function PrivateRoute({ component: Component, ...rest }) {
+const PrivateRoute = ({ children }) => {
   const userSignIn = useSelector((state) => state.userSignIn);
   const { userInfo } = userSignIn;
+  return userInfo ? children : <Navigate to="/sign-in" />;
+};
 
-  return (
-    <Route
-      {...rest}
-      render={(props) =>
-        userInfo ? <Component {...props} /> : <Redirect to="/sign-in" />
-      }
-    />
-  );
-}
+export default PrivateRoute;

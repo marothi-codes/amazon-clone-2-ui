@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import {
   deliverOrder,
@@ -17,7 +17,8 @@ import MessageBox from "../components/MessageBox";
 import { PayPalButton } from "react-paypal-button-v2";
 
 export default function OrderScreen(props) {
-  const orderId = props.match.params.id;
+  const params = useParams();
+  const { id: orderId } = params;
   const [sdkReady, setSdkReady] = useState(false);
 
   const orderDetails = useSelector((state) => state.orderDetails);

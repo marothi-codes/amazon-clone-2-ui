@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { placeOrder } from "../redux/actions/orderActions";
 import { ORDER_CREATE_RESET } from "../redux/constants/orderConstants";
 
@@ -9,9 +9,10 @@ import LoadingBox from "../components/LoadingBox";
 import MessageBox from "../components/MessageBox";
 
 export default function PaymentScreen(props) {
+  const navigate = useNavigate();
   const cart = useSelector((state) => state.cart);
 
-  if (!cart.paymentMethod) props.history.push("/payment-method");
+  if (!cart.paymentMethod) navigate("/payment-method");
 
   const toDecimal = (number) => Number(number.toFixed(2));
   const orderPlacement = useSelector((state) => state.orderPlacement);
@@ -33,9 +34,9 @@ export default function PaymentScreen(props) {
   };
 
   useEffect(() => {
-    if (success) props.history.push(`/order/${order._id}`);
+    if (success) navigate(`/order/${order._id}`);
     dispatch({ type: ORDER_CREATE_RESET });
-  }, [dispatch, order, props.history, success]);
+  }, [dispatch, navigate, order, success]);
 
   return (
     <div>

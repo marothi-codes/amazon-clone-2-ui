@@ -1,10 +1,12 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { saveShippingAddress } from "../redux/actions/cartActions";
 
 import Checkout from "../components/Checkout";
 
-export default function CheckoutScreen(props) {
+export default function CheckoutScreen() {
+  const navigate = useNavigate();
   const userSignIn = useSelector((state) => state.userSignIn);
   const { userInfo } = userSignIn;
   const cart = useSelector((state) => state.cart);
@@ -14,7 +16,7 @@ export default function CheckoutScreen(props) {
   const userAddressMap = useSelector((state) => state.userAddressMap);
   const { address: mapAddress } = userAddressMap;
 
-  if (!userInfo) props.history.push("/sign-in");
+  if (!userInfo) navigate("/sign-in");
 
   const [fullName, setFullName] = useState(shippingAddress.fullName);
   const [address, setAddress] = useState(shippingAddress.address);
@@ -52,7 +54,7 @@ export default function CheckoutScreen(props) {
         })
       );
 
-      props.history.push("/payment-method");
+      navigate("/payment-method");
     }
   };
 
@@ -68,7 +70,7 @@ export default function CheckoutScreen(props) {
         lng,
       })
     );
-    props.history.push("/map");
+    navigate("/map");
   };
 
   return (

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate, useParams } from "react-router-dom";
 import { detailUser, updateUser } from "../redux/actions/userActions";
 import { USER_UPDATE_RESET } from "../redux/constants/userConstants";
 
@@ -7,7 +8,9 @@ import LoadingBox from "../components/LoadingBox";
 import MessageBox from "../components/MessageBox";
 
 export default function UserEditScreen(props) {
-  const userId = props.match.params.id;
+  const navigate = useNavigate();
+  const params = useParams();
+  const { id: userId } = params;
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [isAdmin, setIsAdmin] = useState(false);
@@ -28,7 +31,7 @@ export default function UserEditScreen(props) {
   useEffect(() => {
     if (userUpdated) {
       dispatch({ type: USER_UPDATE_RESET });
-      props.history.push("/users");
+      navigate("/users");
     }
     if (!user) {
       dispatch(detailUser(userId));
@@ -38,7 +41,7 @@ export default function UserEditScreen(props) {
       setIsAdmin(user.isAdmin);
       setIsSeller(user.isSeller);
     }
-  }, [dispatch, props.history, userUpdated, userId, user]);
+  }, [dispatch, navigate, userUpdated, userId, user]);
 
   const handleSubmit = (e) => {
     e.preventDefault();

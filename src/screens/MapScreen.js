@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import {
   GoogleMap,
   LoadScript,
@@ -15,7 +16,8 @@ import LoadingBox from "../components/LoadingBox";
 const libs = ["places"];
 const defaultLocation = { lat: -26.195246, lng: 28.034088 };
 
-export default function MapScreen(props) {
+export default function MapScreen() {
+  const navigate = useNavigate();
   const [googleApiKey, setGoogleApiKey] = useState("");
   const [center, setCenter] = useState(defaultLocation);
   const [location, setLocation] = useState(center);
@@ -76,7 +78,7 @@ export default function MapScreen(props) {
         },
       });
       alert("Location successfully selected.");
-      props.history.push("/checkout");
+      navigate("/checkout");
     } else {
       alert("Please set your address location.");
     }

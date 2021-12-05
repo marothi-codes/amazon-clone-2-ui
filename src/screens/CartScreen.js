@@ -1,15 +1,18 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useNavigate, useParams, useLocation } from "react-router-dom";
 import { addToCart, removeFromCart } from "../redux/actions/cartActions";
 
 import MessageBox from "../components/MessageBox";
 
 export default function CartScreen(props) {
-  const productId = props.match.params.id;
-  const qty = props.location.search
-    ? Number(props.location.search.split("=")[1])
-    : 1;
+  const navigate = useNavigate();
+  const params = useParams();
+  const { id: productId } = params;
+  const { search } = useLocation();
+  const qtyInUrl = new URLSearchParams(search).get("qty");
+  const qty = qtyInUrl ? Number(qtyInUrl) : 1;
+
   const cart = useSelector((state) => state.cart);
   const { cartItems, error } = cart;
   const userSignIn = useSelector((state) => state.userSignIn);
@@ -25,8 +28,8 @@ export default function CartScreen(props) {
   };
 
   const handleCheckout = () => {
-    if (userInfo) props.history.push("/checkout");
-    else props.history.push(`/sign-in?redirect=checkout`);
+    if (userInfo) navigate("/checkout");
+    else navigate(`/sign-in?redirect=checkout`);
   };
 
   return (

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { createReview, detailProduct } from "../redux/actions/productActions";
 import { PRODUCT_REVIEW_CREATE_RESET } from "../redux/constants/productConstants";
 
@@ -9,12 +9,14 @@ import Rating from "../components/Rating";
 import LoadingBox from "../components/LoadingBox";
 import MessageBox from "../components/MessageBox";
 
-export default function ProductDetailsScreen(props) {
-  const dispatch = useDispatch();
-  const productId = props.match.params.id;
+export default function ProductDetailsScreen() {
+  const navigate = useNavigate();
+  const params = useParams();
+  const { id: productId } = params;
   const [qty, setQty] = useState(1);
   const [rating, setRating] = useState(0);
   const [comment, setComment] = useState("");
+  const dispatch = useDispatch();
 
   const userSignIn = useSelector((state) => state.userSignIn);
   const { userInfo } = userSignIn;
@@ -40,7 +42,7 @@ export default function ProductDetailsScreen(props) {
   }, [dispatch, productId, reviewSubmitted]);
 
   const handleAddToCart = () => {
-    props.history.push(`/cart/${productId}?qty=${qty}`);
+    navigate(`/cart/${productId}?qty=${qty}`);
   };
 
   const handleSubmit = (e) => {

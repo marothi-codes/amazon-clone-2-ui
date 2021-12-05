@@ -1,11 +1,13 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
-export default function SearchBox(props) {
+export default function SearchBox() {
+  const navigate = useNavigate();
   const [name, setName] = useState("");
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    props.history.push(`/search/name/${name}`);
+    navigate(`/search/name/${name}`);
   };
 
   return (

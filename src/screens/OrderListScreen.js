@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { deleteOrder, listOrders } from "../redux/actions/orderActions";
 import {
@@ -10,7 +11,9 @@ import LoadingBox from "../components/LoadingBox";
 import MessageBox from "../components/MessageBox";
 
 export default function OrderListScreen(props) {
-  const sellerMode = props.match.path.indexOf("/seller") >= 0;
+  const navigate = useNavigate();
+  const { pathname } = useLocation();
+  const sellerMode = pathname.indexOf("/seller") >= 0;
   const orderList = useSelector((state) => state.orderList);
   const { error, loading, orders } = orderList;
   const orderDelete = useSelector((state) => state.orderDelete);
@@ -74,7 +77,7 @@ export default function OrderListScreen(props) {
                   <button
                     type="button"
                     className="small"
-                    onClick={() => props.history.push(`/order/${order._id}`)}
+                    onClick={() => navigate(`/order/${order._id}`)}
                   >
                     Details
                   </button>

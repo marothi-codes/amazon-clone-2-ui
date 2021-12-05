@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { deleteUser, listUsers } from "../redux/actions/userActions";
 
@@ -6,7 +7,8 @@ import LoadingBox from "../components/LoadingBox";
 import MessageBox from "../components/MessageBox";
 import { USER_DETAILS_RESET } from "../redux/constants/userConstants";
 
-export default function UserListScreen(props) {
+export default function UserListScreen() {
+  const navigate = useNavigate();
   const userList = useSelector((state) => state.userList);
   const { error, loading, users } = userList;
 
@@ -72,7 +74,7 @@ export default function UserListScreen(props) {
                   <button
                     type="button"
                     className="small"
-                    onClick={() => props.history.push(`/user/${user._id}/edit`)}
+                    onClick={() => navigate(`/user/${user._id}/edit`)}
                   >
                     <i className="fa fa-pencil"></i> Edit
                   </button>

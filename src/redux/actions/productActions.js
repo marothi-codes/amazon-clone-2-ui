@@ -154,10 +154,10 @@ export const deleteProduct = (id) => async (dispatch, getState) => {
     userSignIn: { userInfo },
   } = getState();
   try {
-    const { data } = await axios.delete(`/api/products/${id}`, {
+    await axios.delete(`/api/products/${id}`, {
       headers: { Authorization: `Bearer ${userInfo.token}` },
     });
-    dispatch({ type: PRODUCT_DELETE_SUCCESS, payload: data });
+    dispatch({ type: PRODUCT_DELETE_SUCCESS });
   } catch (err) {
     dispatch({
       type: PRODUCT_DELETE_FAILURE,
