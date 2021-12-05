@@ -10,7 +10,7 @@ import {
 import LoadingBox from "../components/LoadingBox";
 import MessageBox from "../components/MessageBox";
 
-export default function OrderListScreen(props) {
+export default function OrderListScreen() {
   const navigate = useNavigate();
   const { pathname } = useLocation();
   const sellerMode = pathname.indexOf("/seller") >= 0;
@@ -53,7 +53,7 @@ export default function OrderListScreen(props) {
         <table className="table">
           <thead>
             <tr>
-              <th>USER</th>
+              <th>CUSTOMER</th>
               <th>DATE</th>
               <th>TOTAL</th>
               <th>PAID</th>

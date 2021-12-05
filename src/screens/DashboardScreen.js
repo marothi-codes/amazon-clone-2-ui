@@ -51,7 +51,7 @@ export default function DashboardScreen() {
                 </span>
               </div>
               <div className="summary-body">
-                $
+                R
                 {summary.orders[0]
                   ? summary.orders[0].totalSales.toFixed(2)
                   : 0}

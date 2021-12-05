@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import {
   createProduct,
   deleteProduct,
@@ -15,10 +15,11 @@ import {
 import LoadingBox from "../components/LoadingBox";
 import MessageBox from "../components/MessageBox";
 
-export default function ProductListScreen(props) {
+export default function ProductListScreen() {
   const navigate = useNavigate();
+  const { pathname } = useLocation();
   const { pageNumber = 1 } = useParams();
-  const sellerMode = props.match.path.indexOf("/seller") >= 0;
+  const sellerMode = pathname.indexOf("/seller") >= 0;
   const productList = useSelector((state) => state.productList);
   const { error, loading, products, page, pages } = productList;
 
